@@ -6,13 +6,14 @@ A basic, generic, GA implementation for testing and instruction.
 
 from BinaryChromosome import *
 import numpy as np
+import sys
 
 
 # Default auxiliary functions
 def simpleMutate(x,cprob=0.05,gprob=0.05):
     if np.random.rand() < cprob:
         l = len(x)
-        bc = np.ceil(l*gbrob)
+        bc = int(np.ceil(l*gprob))
         ic = np.random.randint(l,size=bc)
         x.flip(ic)
     return x
@@ -37,6 +38,9 @@ def simpleCrossover(x,y):
 
 # The GA proper
 class GA:
+    def __len__(self): 
+        if self.population == None: return 0
+        else: return len(self.population)
     def __init__(self,representation,costfunction,
             mate=simpleMate,crossover=simpleCrossover,mutate=simpleMutate,selectionrate=0.5):
         """
@@ -70,7 +74,10 @@ class GA:
         self.Nselect = 2*np.ceil(self.selectionrate*size/2)
 
     def cost(self,x):
-        return self.costfunction(x)
+        v = self.representation.getFloat(x) 
+        c = self.costfunction( v )
+        print( f"{str(x.gene)} -> {v} -> {c}" )
+        return c
 
     def evolve(self,ngen=1):
         """Evolve the given number of generations."""
@@ -79,17 +86,24 @@ class GA:
 
     def nextGeneration(self):
         """Evolve one generation."""
+
+        print(f"Evolving Generation {self.generation}. Population size {len(self)}.",file=sys.stderr)
+
         # Calculate the cost function; list of cost/chromosome pairs
         cost = [ (self.cost(x),x) for x in self.population ]
 
         # Sort and keep the best
-        if self.Nselect >= self.size:
+        if self.Nselect >= len(self):
             cost.sort( key=lambda x : x[0] )
             cost = cost[:self.Nselect]
+            print( cost[0], file=sys.stderr )
         # Note that we do not sort if we keep all the chromosomes
 
+        print(f"Nselect {self.Nselect}.", file=sys.stderr)
+        print(f"Best chromosome {cost[0]}. Population size {len(cost)}.",file=sys.stderr)
+
         # Make mating pairs
-        pairs = self.mate(self.cost)
+        pairs = self.mate(cost)
 
         # Make offspring with the crossover function
         offspring = [ self.crossover(x,y) for ((cx,x),(cy,y)) in pairs ]
@@ -118,5 +132,6 @@ f5d3 = lambda x : f5(x,3)
 if __name__ == "__main__":
     r = BinaryRepresentation(-20,+20,16)
     ga = GA(r,f1)
-    ga.initPopulation(100)
-    ga.evolve(100)
+    ga.initPopulation(20)
+    for c in ga.population: print(str(c),file=sys.stderr)
+    ga.evolve(20)
