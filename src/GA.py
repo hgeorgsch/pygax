@@ -113,11 +113,10 @@ class GA:
         if self.Nselect < len(self):
             cost.sort( key=lambda x : x[0] )
             cost = cost[:self.Nselect]
-            if self.debug > 0: print( cost[0], file=sys.stderr )
         # Note that we do not sort if we keep all the chromosomes
 
         if self.debug > 2: print(f"Nselect {self.Nselect}.", file=sys.stderr)
-        if self.debug > 0: print(f"Best chromosome {cost[0]}. Population size {len(cost)}.",file=sys.stderr)
+        if self.debug > 0: print(f"Mimimum {cost[0][0]} - {cost[0][1]} out of {len(cost)} chromosomes.",file=sys.stderr)
 
         # Make mating pairs
         pairs = self.mate(cost)
