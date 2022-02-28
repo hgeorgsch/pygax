@@ -1,5 +1,10 @@
 # pygax: Genetic Algorithm Exercises and Demoes in python
 
+This code is created to support exercises and tutorials in a
+taught module on artificial intelligence.  The implementation 
+is meant to be conceptually simple and flexible, at the expense 
+of speed.  Also, error checks have generally not been implemented.
+
 ## Binary GA for floating point problems
 
 The demo contains three classes.
