@@ -14,9 +14,11 @@ def makeInt(x,bl):
 class BinaryRepresentation:
     def makePopulation(self,size):
         """
-        Make a population of `size` chromosomes of dimension `dim`.
+        Make a population of `size` chromosomes for this representation
         """
-        return np.random.randint(2, size=( size, self.length ) )
+        pop = np.random.randint(2, size=( size, self.length ) )
+        return [ BinaryChromosome(gene) for gene in pop ]
+
     def __init__(self,pmin=None,pmax=None,bits=None):
         """
         Creates a mapping between floating point vectors and
@@ -44,11 +46,11 @@ class BinaryRepresentation:
         This is the representation which should be used in the cost function
         for a floating point problem.
         """
-        ig = self.getIgene(gene.gene)
+        ig = self._getIgene(gene.gene)
         ignorm = ig/2**self.bits
         p = ignorm*(self.pmax-self.pmin)+self.pmin
         return p
-    def getIgene(self,gene):
+    def _getIgene(self,gene):
         """
         Return an integer vector representation of the binary chromosome.
         This is mainly an auxiliary for `getFloat()`.
@@ -85,12 +87,6 @@ class BinaryChromosome:
     def __str__(self):
         "Make a compact display string of the the binary vector."
         return"".join([str(x) for x in self.gene])
-    def makePopulation(size,dim):
-        """
-        Make a population of `size` chromosomes of dimension `dim`.
-        """
-        pop = np.random.randint(2, size( size, dim ) )
-        return [ BinaryChromosome(gene) for gene in pop ]
     def __init__(self,p=None,rep=None):
         """
         Creates a chromosome from the variable (vector) p.
