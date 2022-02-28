@@ -4,8 +4,36 @@ A basic, generic, GA implementation for testing and instruction.
 
 from BinaryChromosome import *
 
+def simpleMutate(x,cprob=0.05,gprob=0.05):
+    if np.random.rand() < cprob:
+        l = len(x)
+        bc = ceil(l*gbrob)
+        ic = np.random.randint(l,size=bc)
+        for i in ic:
+            x[i] = 1 - x[i]
+    return x
+def simpleMutateFunction(cprob=0.05,gprob=0.05):
+    return lambda x : simpleMutate(x,cprob,gprob)
+
+def simpleMate(pop):
+    r = []
+    i = 0
+    l = len(pop)
+    for i in range(0,l-1,2):
+        r.append( (pop[i],pop[i+1]) )
+    return r
+def simpleCrossover(x,y):
+    l = len(x)
+    assert l == len(y), "Chromosomes has to have the same length"
+    cp = np.random.randint(l)
+    x1 = np.hstack( [ x[:cp], y[cp:] ] )
+    y1 = np.hstack( [ y[:cp], x[cp:] ] )
+    return (x1,y1)
+
+
+
 class GA:
-    def __init__(self,representation,costfunction,mate,crossover,mutate,selectionrate=0.5):
+    def __init__(self,representation,costfunction,mate=simpleMate,crossover=simpleCrossover,mutate=simpleMutate,selectionrate=0.5):
         """
         Initialise the GA with a given representation and cost function.
 

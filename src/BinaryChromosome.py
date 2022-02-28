@@ -16,7 +16,7 @@ def BinaryRepresentation:
         """
         Make a population of `size` chromosomes of dimension `dim`.
         """
-        return np.random.randint(2, size( size, self.length ) )
+        return np.random.randint(2, size=( size, self.length ) )
     def __init__(self,pmin=None,pmax=None,bits=None):
         """
         Creates a mapping between floating point vectors and
