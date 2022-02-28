@@ -72,7 +72,7 @@ class GA:
         self.population = self.representation.makePopulation(size)
         self.generation = 0
         self.populationsize = size
-        self.Nselect = 2*np.ceil(self.selectionrate*size/2)
+        self.Nselect = int(2*np.ceil(self.selectionrate*size/2))
 
     def cost(self,x):
         v = self.representation.getFloat(x) 
@@ -95,13 +95,13 @@ class GA:
         cost = [ (self.cost(x),x) for x in self.population ]
 
         # Sort and keep the best
-        if self.Nselect >= len(self):
+        if self.Nselect < len(self):
             cost.sort( key=lambda x : x[0] )
             cost = cost[:self.Nselect]
             if self.debug > 0: print( cost[0], file=sys.stderr )
         # Note that we do not sort if we keep all the chromosomes
 
-        if self.debug > 1: print(f"Nselect {self.Nselect}.", file=sys.stderr)
+        if self.debug > 2: print(f"Nselect {self.Nselect}.", file=sys.stderr)
         if self.debug > 0: print(f"Best chromosome {cost[0]}. Population size {len(cost)}.",file=sys.stderr)
 
         # Make mating pairs
@@ -110,7 +110,8 @@ class GA:
         # Make offspring with the crossover function
         offspring = [ self.crossover(x,y) for ((cx,x),(cy,y)) in pairs ]
 
-        # Add the offspring to the population
+        # Update population
+        self.population = [ x for (y,x) in cost ]
         for x in offspring:
             self.population.extend(x)
 
