@@ -59,7 +59,7 @@ class BinaryRepresentation:
         ig = self._getIgene(gene.gene).astype(np.double)
         ignorm = ig/(2.0**self.bits)
         p = ignorm*(self.pmax-self.pmin)+self.pmin
-        print("getFloat returning:", ig, ignorm, self.bits, 2.0**self.bits, p)
+        # print("getFloat returning:", ig, ignorm, self.bits, 2.0**self.bits, p)
         return p
     def _getIgene(self,gene):
         """
@@ -72,7 +72,6 @@ class BinaryRepresentation:
             ss.append( (gene[s:s+bl],bl) )
             s += bl
         r = np.array( [ makeInt(x,bl) for (x,bl) in ss ] )
-        print("_getIgene returning:", r)
         return r
     def getGene(self,p):
         """

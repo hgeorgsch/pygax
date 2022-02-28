@@ -42,7 +42,7 @@ class GA:
         if self.population == None: return 0
         else: return len(self.population)
     def __init__(self,representation,costfunction,
-            mate=simpleMate,crossover=simpleCrossover,mutate=simpleMutate,selectionrate=0.5):
+            mate=simpleMate,crossover=simpleCrossover,mutate=simpleMutate,selectionrate=0.5,debug=2):
         """
         Initialise the GA with a given representation and cost function.
 
@@ -64,6 +64,7 @@ class GA:
         self.mutate = mutate
         self.selectionrate = selectionrate
         self.population = None
+        self.debug = debug
 
 
     def initPopulation(self,size):
@@ -76,7 +77,7 @@ class GA:
     def cost(self,x):
         v = self.representation.getFloat(x) 
         c = self.costfunction( v )
-        print( f"{str(x.gene)} -> {v} -> {c}" )
+        if self.debug > 2: print( f"{str(x.gene)} -> {v} -> {c}" )
         return c
 
     def evolve(self,ngen=1):
@@ -87,7 +88,8 @@ class GA:
     def nextGeneration(self):
         """Evolve one generation."""
 
-        print(f"Evolving Generation {self.generation}. Population size {len(self)}.",file=sys.stderr)
+        if self.debug > 0: 
+            print(f"Evolving Generation {self.generation}. Population size {len(self)}.",file=sys.stderr)
 
         # Calculate the cost function; list of cost/chromosome pairs
         cost = [ (self.cost(x),x) for x in self.population ]
@@ -96,11 +98,11 @@ class GA:
         if self.Nselect >= len(self):
             cost.sort( key=lambda x : x[0] )
             cost = cost[:self.Nselect]
-            print( cost[0], file=sys.stderr )
+            if self.debug > 0: print( cost[0], file=sys.stderr )
         # Note that we do not sort if we keep all the chromosomes
 
-        print(f"Nselect {self.Nselect}.", file=sys.stderr)
-        print(f"Best chromosome {cost[0]}. Population size {len(cost)}.",file=sys.stderr)
+        if self.debug > 1: print(f"Nselect {self.Nselect}.", file=sys.stderr)
+        if self.debug > 0: print(f"Best chromosome {cost[0]}. Population size {len(cost)}.",file=sys.stderr)
 
         # Make mating pairs
         pairs = self.mate(cost)
