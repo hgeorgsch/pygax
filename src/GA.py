@@ -85,6 +85,21 @@ class GA:
         for i in range(ngen):
             self.nextGeneration()
 
+    def sortCost(self):
+        """
+        Calculate costs and sort chromosome.
+        The return value is a list of cost/chromosome pairs.
+        """
+        cost = [ (self.cost(x),x) for x in self.population ]
+        cost.sort( key=lambda x : x[0] )
+        return cost
+
+        # Sort and keep the best
+        if self.Nselect < len(self):
+            cost = cost[:self.Nselect]
+            if self.debug > 0: print( cost[0], file=sys.stderr )
+
+
     def nextGeneration(self):
         """Evolve one generation."""
 
