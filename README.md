@@ -3,7 +3,9 @@
 This code is created to support exercises and tutorials in a
 taught module on artificial intelligence.  The implementation 
 is meant to be conceptually simple and flexible, at the expense 
-of speed.  Also, error checks have generally not been implemented.
+of speed.  Also, error checks have generally not been implemented,
+and there has been no attempt to pack it up as a proper python
+module for reuse.
 
 ## Binary GA for floating point problems
 
@@ -29,6 +31,9 @@ and `getGene()` for the inverse mapping. It also has the
 
 A `BinaryChromosome` object is a chromosome to be used with the
 `GA` solver below.
+
+There is a test script in the script section of the file,
+testing and demonstrating the main principles.
 
 ### GA.GA
 

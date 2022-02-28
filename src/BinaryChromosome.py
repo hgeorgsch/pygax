@@ -65,7 +65,7 @@ class BinaryRepresentation:
     def _getIgene(self,gene):
         """
         Return an integer vector representation of the binary chromosome.
-        This is mainly an auxiliary for `getFloat()`.
+        Auxiliary function for `getFloat()`.
         """
         ss = []
         s = 0
