@@ -12,7 +12,7 @@ import numpy as np
 def simpleMutate(x,cprob=0.05,gprob=0.05):
     if np.random.rand() < cprob:
         l = len(x)
-        bc = ceil(l*gbrob)
+        bc = np.ceil(l*gbrob)
         ic = np.random.randint(l,size=bc)
         x.flip(ic)
     return x
@@ -67,7 +67,7 @@ class GA:
         self.population = self.representation.makePopulation(size)
         self.generation = 0
         self.populationsize = size
-        self.Nselect = 2*ceil(self.selectionrate*size/2)
+        self.Nselect = 2*np.ceil(self.selectionrate*size/2)
 
     def cost(self,x):
         return self.costfunction(x)
@@ -118,4 +118,5 @@ f5d3 = lambda x : f5(x,3)
 if __name__ == "__main__":
     r = BinaryRepresentation(-20,+20,16)
     ga = GA(r,f1)
+    ga.initPopulation(100)
     ga.evolve(100)
