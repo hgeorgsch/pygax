@@ -11,7 +11,7 @@ def makeInt(x,bl):
     "Convert a binary sequence to an integer, reading the least significant bit first."
     return sum( [ x[i]*2**i for i in range(bl) ] )
 
-def BinaryRepresentation:
+class BinaryRepresentation:
     def makePopulation(self,size):
         """
         Make a population of `size` chromosomes of dimension `dim`.
@@ -32,9 +32,10 @@ def BinaryRepresentation:
         """
         self.pmax = pmax
         self.pmin = pmin
+        assert pmin.size == pmax.size, "pmin and pmax must have the same size"
         # If bits is a scalar, turn it into an array
         if np.isscalar(bits):
-            bits = bits*np.ones(pi.size,dtype=np.int8)
+            bits = bits*np.ones(pmax.size,dtype=np.int8)
         self.bits = bits
         self.length = sum(bits)
     def getFloat(self,gene):
@@ -43,7 +44,7 @@ def BinaryRepresentation:
         This is the representation which should be used in the cost function
         for a floating point problem.
         """
-        ig = self.getIgene(gene)
+        ig = self.getIgene(gene.gene)
         ignorm = ig/2**self.bits
         p = ignorm*(self.pmax-self.pmin)+self.pmin
         return p
@@ -79,6 +80,7 @@ def BinaryRepresentation:
                 gene.append(x%2)
                 x >>= 1
         return gene
+
 class BinaryChromosome:
     def __str__(self):
         "Make a compact display string of the the binary vector."
@@ -105,12 +107,15 @@ class BinaryChromosome:
 
         **Warning** No error checking is implemented.
         """
-        if p == None:
-            self.gene = np.random.randint(2,size=rep.length)
-        elif rep == None:
+        if type(p) == np.ndarray:
+          if rep == None:
             self.gene = p
-        else:
+          else:
             self.gene = rep.getGene(p)
+        else:
+            assert p == None, "p should be a numpy array or None"
+            self.gene = np.random.randint(2,size=rep.length)
+
 
 # Test Data
 Amin = np.array([0,0,0])
@@ -118,9 +123,10 @@ Amax = np.array([10,10,10])
 A = np.array([1,9,4])
 
 if __name__ == "__main__":
-    b = BinaryChromosome(A,Amin,Amax,4)
+    r = BinaryRepresentation(Amin,Amax,4)
+    b = BinaryChromosome(A,r)
     print("Original vector:", A)
     # print("Integer representation:", b.igene)
     print("Chromosome representation:", b)
-    print("Reconstructed after quantisation:", b.getFloat())
+    print("Reconstructed after quantisation:", r.getFloat(b))
 
