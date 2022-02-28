@@ -34,14 +34,15 @@ class BinaryRepresentation:
 
         **Warning** No error checking is implemented.
         """
+        if np.isscalar(pmin):
+            pmin = pmin*np.ones(dim)
+        elif dim > 1:
+            dim = len(pmin
+        self.pmin = pmin
         if np.isscalar(pmax):
             self.pmax = pmax*np.ones(dim)
         else:
             self.pmax = pmax
-        if np.isscalar(pmin):
-            self.pmin = pmin*np.ones(dim)
-        else:
-            self.pmin = pmin
         size = self.pmin.size 
         assert size == self.pmax.size, "pmin and pmax must have the same size"
 

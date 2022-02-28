@@ -36,3 +36,12 @@ The `GA` class sets up a generic genetic algorithm.  Mating, crossover,
 and mutation functions are given as arguments to the constructor.
 The module also contains some simple default implementations of these
 functions.
+
+A `GA` object is intialised with a representation object (see above)
+and a cost function.  The other critical methods are
+
+1.  `initPopulation(size)` to initialise a population of a given size.
+2.  `evolve(ngen)` to evolve the given number of generations
+3.  `sortCost()` to get a sorted list of costs and chromosomes.
+
+An example is given in the script section at the bottom of the file.
