@@ -149,6 +149,6 @@ f5d3 = lambda x : f5(x,3)
 if __name__ == "__main__":
     r = BinaryRepresentation(-20,+20,16)
     ga = GA(r,f1)
-    ga.initPopulation(20)
+    ga.initPopulation(100)
     for c in ga.population: print(str(c),file=sys.stderr)
-    ga.evolve(20)
+    ga.evolve(100)
