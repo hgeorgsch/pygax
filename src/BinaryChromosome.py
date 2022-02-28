@@ -37,7 +37,7 @@ class BinaryRepresentation:
         if np.isscalar(pmin):
             pmin = pmin*np.ones(dim)
         elif dim > 1:
-            dim = len(pmin
+            dim = len(pmin)
         self.pmin = pmin
         if np.isscalar(pmax):
             self.pmax = pmax*np.ones(dim)
