@@ -56,9 +56,10 @@ class BinaryRepresentation:
         This is the representation which should be used in the cost function
         for a floating point problem.
         """
-        ig = self._getIgene(gene.gene)
-        ignorm = ig/2**self.bits
+        ig = self._getIgene(gene.gene).astype(np.double)
+        ignorm = ig/(2.0**self.bits)
         p = ignorm*(self.pmax-self.pmin)+self.pmin
+        print("getFloat returning:", ig, ignorm, self.bits, 2.0**self.bits, p)
         return p
     def _getIgene(self,gene):
         """
@@ -71,7 +72,7 @@ class BinaryRepresentation:
             ss.append( (gene[s:s+bl],bl) )
             s += bl
         r = np.array( [ makeInt(x,bl) for (x,bl) in ss ] )
-        print("getFloat returning:", r)
+        print("_getIgene returning:", r)
         return r
     def getGene(self,p):
         """

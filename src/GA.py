@@ -122,7 +122,7 @@ class GA:
         return self.population
 
 # Test function
-def f1(x): return np.abs(x) + np.cos(x)
+def f1(x): return sum(np.abs(x) + np.cos(x))
 
 def f5(x,n): 
     l = [ np.abs(x[i]) - 10*np.cos(np.sqrt(np.abs(10*x[i]))) for i in range(n) ]
