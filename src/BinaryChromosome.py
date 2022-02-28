@@ -1,4 +1,6 @@
 """
+(C) 2022: Hans Georg Schaathun <hasc@ntnu.no>
+
 Class to represent binary chromosomes, including methods to encode
 floating point numbers.
 """
@@ -19,7 +21,7 @@ class BinaryRepresentation:
         pop = np.random.randint(2, size=( size, self.length ) )
         return [ BinaryChromosome(gene) for gene in pop ]
 
-    def __init__(self,pmin=None,pmax=None,bits=None):
+    def __init__(self,pmin=None,pmax=None,bits=None,dim=1):
         """
         Creates a mapping between floating point vectors and
         binary chromosomes, to optimise continuous functions with
@@ -32,12 +34,20 @@ class BinaryRepresentation:
 
         **Warning** No error checking is implemented.
         """
-        self.pmax = pmax
-        self.pmin = pmin
-        assert pmin.size == pmax.size, "pmin and pmax must have the same size"
+        if np.isscalar(pmax):
+            self.pmax = pmax*np.ones(dim)
+        else:
+            self.pmax = pmax
+        if np.isscalar(pmin):
+            self.pmin = pmin*np.ones(dim)
+        else:
+            self.pmin = pmin
+        size = self.pmin.size 
+        assert size == self.pmax.size, "pmin and pmax must have the same size"
+
         # If bits is a scalar, turn it into an array
         if np.isscalar(bits):
-            bits = bits*np.ones(pmax.size,dtype=np.int8)
+            bits = bits*np.ones(size,dtype=np.int8)
         self.bits = bits
         self.length = sum(bits)
     def getFloat(self,gene):
@@ -84,6 +94,15 @@ class BinaryRepresentation:
         return gene
 
 class BinaryChromosome:
+    def __len__(self):
+        return len(self.gene)
+    def flip(self,ic):
+        """
+        Flip the bits indexed by elements of the list ic.
+        This is an auxiliary for mutation functions.
+        """
+        for i in ic:
+            self.gene[i] = 1 - self.gene[i]
     def __str__(self):
         "Make a compact display string of the the binary vector."
         return"".join([str(x) for x in self.gene])

@@ -1,16 +1,20 @@
 """
+(C) 2022: Hans Georg Schaathun <hasc@ntnu.no>
+
 A basic, generic, GA implementation for testing and instruction.
 """
 
 from BinaryChromosome import *
+import numpy as np
 
+
+# Default auxiliary functions
 def simpleMutate(x,cprob=0.05,gprob=0.05):
     if np.random.rand() < cprob:
         l = len(x)
         bc = ceil(l*gbrob)
         ic = np.random.randint(l,size=bc)
-        for i in ic:
-            x[i] = 1 - x[i]
+        x.flip(ic)
     return x
 def simpleMutateFunction(cprob=0.05,gprob=0.05):
     return lambda x : simpleMutate(x,cprob,gprob)
@@ -26,14 +30,15 @@ def simpleCrossover(x,y):
     l = len(x)
     assert l == len(y), "Chromosomes has to have the same length"
     cp = np.random.randint(l)
-    x1 = np.hstack( [ x[:cp], y[cp:] ] )
-    y1 = np.hstack( [ y[:cp], x[cp:] ] )
-    return (x1,y1)
+    x1 = np.hstack( [ x.gene[:cp], y.gene[cp:] ] )
+    y1 = np.hstack( [ y.gene[:cp], x.gene[cp:] ] )
+    return (BinaryChromosome(x1),BinaryChromosome(y1))
 
 
-
+# The GA proper
 class GA:
-    def __init__(self,representation,costfunction,mate=simpleMate,crossover=simpleCrossover,mutate=simpleMutate,selectionrate=0.5):
+    def __init__(self,representation,costfunction,
+            mate=simpleMate,crossover=simpleCrossover,mutate=simpleMutate,selectionrate=0.5):
         """
         Initialise the GA with a given representation and cost function.
 
@@ -102,3 +107,15 @@ class GA:
 
         return self.population
 
+# Test function
+def f1(x): return np.abs(x) + np.cos(x)
+
+def f5(x,n): 
+    l = [ np.abs(x[i]) - 10*np.cos(np.sqrt(np.abs(10*x[i]))) for i in range(n) ]
+    return sum( l )
+f5d3 = lambda x : f5(x,3)
+
+if __name__ == "__main__":
+    r = BinaryRepresentation(-20,+20,16)
+    ga = GA(r,f1)
+    ga.evolve(100)
