@@ -7,6 +7,8 @@ of speed.  Also, error checks have generally not been implemented,
 and there has been no attempt to pack it up as a proper python
 module for reuse.
 
+The code is crude.  Please suggest improvements.
+
 ## Binary GA for floating point problems
 
 The demo contains three classes.
@@ -67,3 +69,10 @@ considered.
 
 Note that we can run the local beam search with a population size
 of one to make a straight-forward hill climbing search.
+
+## Testing
+
+In addition to the test script sections in the modules themselves,
+two additional test scripts `testGA.py` and `testBeam.py` are provided,
+optimising a three-dimensional function.  The test functions are 
+implemented in the `TestFunctions` module.

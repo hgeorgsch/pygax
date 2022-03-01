@@ -5,6 +5,7 @@ A basic, generic, GA implementation for testing and instruction.
 """
 
 from BinaryChromosome import *
+from TestFunctions import *
 import numpy as np
 import sys
 
@@ -118,6 +119,15 @@ class GA:
         cost.sort( key=lambda x : x[0] )
         return cost
 
+    def getSolution(self):
+        """
+        Get the best solution as a triplet (cost,solution,chromosome).
+        """
+        costlist = self.sortCost()
+        (cost,chromosome) = costlist[0]
+        solution = self.representation.getFloat(chromosome)
+        return (cost,solution,str(chromosome))
+
     def nextGeneration(self):
         """Evolve one generation."""
 
@@ -159,13 +169,6 @@ class GA:
 
         return self.population
 
-# Test function
-def f1(x): return sum(np.abs(x) + np.cos(x))
-
-def f5(x,n): 
-    l = [ np.abs(x[i]) - 10*np.cos(np.sqrt(np.abs(10*x[i]))) for i in range(n) ]
-    return sum( l )
-f5d3 = lambda x : f5(x,3)
 
 if __name__ == "__main__":
     r = BinaryRepresentation(-20,+20,16)
@@ -173,3 +176,4 @@ if __name__ == "__main__":
     ga.initPopulation(100)
     for c in ga.population: print(str(c),file=sys.stderr)
     ga.evolve(100)
+    print( ga.getSolution() )

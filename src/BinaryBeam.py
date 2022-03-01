@@ -7,6 +7,7 @@ structure and much of the same logic.
 """
 
 from BinaryChromosome import *
+from TestFunctions import *
 from GA import GA
 import numpy as np
 import sys
@@ -32,7 +33,7 @@ class Beam(GA):
     # def initPopulation(self,size):
     # def evolve(self,ngen=1):
 
-    def _init(self):
+    def _init(self,*args,**kw):
         "Initialisations specific to Beam Searches."
         # We override this to be able to use a generic `initPopulation` method
         pass
@@ -66,17 +67,10 @@ class Beam(GA):
 
         return cost
 
-# Test function
-def f1(x): return sum(np.abs(x) + np.cos(x))
-
-def f5(x,n): 
-    l = [ np.abs(x[i]) - 10*np.cos(np.sqrt(np.abs(10*x[i]))) for i in range(n) ]
-    return sum( l )
-f5d3 = lambda x : f5(x,3)
-
 if __name__ == "__main__":
     r = BinaryRepresentation(-20,+20,16)
     beam = Beam(r,f1)
     beam.initPopulation(100)
     for c in beam.population: print(str(c),file=sys.stderr)
     beam.evolve(100)
+    print( beam.getSolution() )
