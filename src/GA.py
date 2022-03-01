@@ -11,6 +11,10 @@ import sys
 
 # Default auxiliary functions
 def simpleMutate(x,cprob=0.05,gprob=0.05):
+    """
+    Mutate the chromosome with probability cprob.
+    If the chromosome is mutated, flip each bit with probability gprob.
+    """
     if np.random.rand() < cprob:
         l = len(x)
         bc = int(np.ceil(l*gprob))
@@ -21,6 +25,10 @@ def simpleMutateFunction(cprob=0.05,gprob=0.05):
     return lambda x : simpleMutate(x,cprob,gprob)
 
 def simpleMate(pop):
+    """
+    Splits the given population into adjacent pairs, starting at
+    the start of the list.
+    """
     r = []
     i = 0
     l = len(pop)
@@ -28,6 +36,7 @@ def simpleMate(pop):
         r.append( (pop[i],pop[i+1]) )
     return r
 def simpleCrossover(x,y):
+    "Single-point cross-over."
     l = len(x)
     assert l == len(y), "Chromosomes has to have the same length"
     cp = np.random.randint(l)
@@ -56,6 +65,10 @@ class GA:
 
         Note that if the selection rate is 1 or greater, the population
         is not sorted before mating.
+
+        Hint. To change the mutation rate in the default mutation function,
+        you can use lambda functions.  For example,
+        `mutate=lambda x : simpleMutate(x,cprob=0.01,gprob=0.1)`.
         """
         self.costfunction = costfunction
         self.representation = representation
