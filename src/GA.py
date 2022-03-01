@@ -85,6 +85,15 @@ class GA:
         self.population = self.representation.makePopulation(size)
         self.generation = 0
         self.populationsize = size
+        self._init()
+
+    def _init(self):
+        """
+        Initialisations specific to GA
+        Making subclasses to implement other population based methods,
+        it should not be necessary to override `initPopulation`.
+        Overriding this method may be necessary.
+        """
         self.Nselect = int(2*np.ceil(self.selectionrate*size/2))
 
     def cost(self,x):
@@ -107,17 +116,12 @@ class GA:
         cost.sort( key=lambda x : x[0] )
         return cost
 
-        # Sort and keep the best
-        if self.Nselect < len(self):
-            cost = cost[:self.Nselect]
-            if self.debug > 0: print( cost[0], file=sys.stderr )
-
-
     def nextGeneration(self):
         """Evolve one generation."""
 
         if self.debug > 0: 
-            print(f"Evolving Generation {self.generation}. Population size {len(self)}.",file=sys.stderr)
+            print(f"Evolving Generation {self.generation}. Population size {len(self)}.",
+                    file=sys.stderr)
 
         # Calculate the cost function; list of cost/chromosome pairs
         cost = [ (self.cost(x),x) for x in self.population ]
@@ -129,7 +133,9 @@ class GA:
         # Note that we do not sort if we keep all the chromosomes
 
         if self.debug > 2: print(f"Nselect {self.Nselect}.", file=sys.stderr)
-        if self.debug > 0: print(f"Mimimum {cost[0][0]} - {cost[0][1]} out of {len(cost)} chromosomes.",file=sys.stderr)
+        if self.debug > 0:
+            print(f"Mimimum {cost[0][0]} - {cost[0][1]} out of {len(cost)} chromosomes.",
+                    file=sys.stderr)
 
         # Make mating pairs
         pairs = self.mate(cost)

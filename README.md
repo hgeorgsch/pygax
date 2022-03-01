@@ -50,3 +50,20 @@ and a cost function.  The other critical methods are
 3.  `sortCost()` to get a sorted list of costs and chromosomes.
 
 An example is given in the script section at the bottom of the file.
+
+## Local Beam Search
+
+For the sake of comparison we provide an implementation of Local Beam Search.
+
+## BinaryBeam.Beam
+
+This class follows the same structure as `GA`, assuming a binary 
+representation.  As the test script shows, it is used in the same
+way.
+
+By using the binary representation, we have a finite number of 
+neighbours at Hamming distance one, and every such neighbour is
+considered.
+
+Note that we can run the local beam search with a population size
+of one to make a straight-forward hill climbing search.

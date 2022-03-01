@@ -102,8 +102,17 @@ class BinaryChromosome:
         Flip the bits indexed by elements of the list ic.
         This is an auxiliary for mutation functions.
         """
+        if np.isscalar(ic): ic = [ic]
         for i in ic:
             self.gene[i] = 1 - self.gene[i]
+    def copy(self):
+        "Return a copy of the chromosome."
+        return BinaryChromosome(self.gene.copy())
+    def flipCopy(self,i):
+        "Return a copy of the chromosome flipping the `i`th bit."
+        r = BinaryChromosome(self.gene.copy())
+        r.flip(i)
+        return r
     def __str__(self):
         "Make a compact display string of the the binary vector."
         return"".join([str(x) for x in self.gene])
