@@ -64,7 +64,7 @@ class Beam(GA):
         # Advance the generation count
         self.generation += 1
 
-        return self.population
+        return cost
 
 # Test function
 def f1(x): return sum(np.abs(x) + np.cos(x))

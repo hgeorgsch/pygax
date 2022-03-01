@@ -85,9 +85,9 @@ class GA:
         self.population = self.representation.makePopulation(size)
         self.generation = 0
         self.populationsize = size
-        self._init()
+        self._init(size)
 
-    def _init(self):
+    def _init(self,size):
         """
         Initialisations specific to GA
         Making subclasses to implement other population based methods,
@@ -104,8 +104,10 @@ class GA:
 
     def evolve(self,ngen=1):
         """Evolve the given number of generations."""
-        for i in range(ngen):
+        if ngen == 1: return self.nextGeneration()
+        else:
             self.nextGeneration()
+            return self.evolve(ngen=ngen-1)
 
     def sortCost(self):
         """
