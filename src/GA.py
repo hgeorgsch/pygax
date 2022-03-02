@@ -105,10 +105,9 @@ class GA:
 
     def evolve(self,ngen=1):
         """Evolve the given number of generations."""
-        if ngen == 1: return self.nextGeneration()
-        else:
-            self.nextGeneration()
-            return self.evolve(ngen=ngen-1)
+        for i in range(ngen):
+            r = self.nextGeneration()
+        return r
 
     def sortCost(self):
         """

@@ -1,4 +1,4 @@
-t"""
+"""
 (C) 2022: Hans Georg Schaathun <hasc@ntnu.no>
 
 Class to represent continuous chromosomes.
@@ -49,13 +49,13 @@ class ContinuousRepresentation:
     def getFloat(self,gene):
         "Map chromosome from [0,1] range to solution space."
         s = self.pmax - self.pmin
-        return gene*s + self.pmin
+        return gene.gene*s + self.pmin
     def getGene(self,p):
         "Map solution to a chromosome with [0,1] range ."
         s = self.pmax - self.pmin
         return (p-self.pmin)/s
 
-class ContiuousChromosome(BinaryChromosome):
+class ContinuousChromosome(BinaryChromosome):
     # def __len__(self):
     # def flip(self,ic):
     def copy(self):
