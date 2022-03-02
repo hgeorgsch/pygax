@@ -53,11 +53,18 @@ and a cost function.  The other critical methods are
 
 An example is given in the script section at the bottom of the file.
 
+### Testing
+
+In addition to the test script sections in the modules themselves,
+an additional test script `testGA.py` is provided, optimising a
+three-dimensional function.  The test functions are implemented
+in the `TestFunctions` module.
+
 ## Local Beam Search
 
 For the sake of comparison we provide an implementation of Local Beam Search.
 
-## BinaryBeam.Beam
+### BinaryBeam.Beam
 
 This class follows the same structure as `GA`, assuming a binary 
 representation.  As the test script shows, it is used in the same
@@ -70,12 +77,11 @@ considered.
 Note that we can run the local beam search with a population size
 of one to make a straight-forward hill climbing search.
 
-## Testing
+### Testing
 
 In addition to the test script sections in the modules themselves,
-two additional test scripts `testGA.py` and `testBeam.py` are provided,
-optimising a three-dimensional function.  The test functions are 
-implemented in the `TestFunctions` module.
+an additional test script `testBeam.py` is provided, analogous to
+`testGA.py`.
 
 ## Continuous GA
 
