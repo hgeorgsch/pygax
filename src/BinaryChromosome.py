@@ -31,6 +31,12 @@ class BinaryRepresentation:
             pmin : The minimum value of each variable in p
             pmax : The maximum value of each variable in p
             bits : The number of bits to encode each variable of p
+            dim : The length of a solution vector 
+        
+        The dimension `dim` is ignored if `pmin` is a vector,
+        in which case its dimension is also the dimension of the
+        solution.  If `pmin` or `pmax` are scalars, the same 
+        minimum or maximum applies in all dimensions.
 
         **Warning** No error checking is implemented.
         """
@@ -110,12 +116,12 @@ class BinaryChromosome:
         return BinaryChromosome(self.gene.copy())
     def flipCopy(self,i):
         "Return a copy of the chromosome flipping the `i`th bit."
-        r = BinaryChromosome(self.gene.copy())
+        r = self.copy()
         r.flip(i)
         return r
     def __str__(self):
         "Make a compact display string of the the binary vector."
-        return"".join([str(x) for x in self.gene])
+        return "".join([str(x) for x in self.gene])
     def __init__(self,p=None,rep=None):
         """
         Creates a chromosome from the variable (vector) p.
