@@ -76,3 +76,9 @@ In addition to the test script sections in the modules themselves,
 two additional test scripts `testGA.py` and `testBeam.py` are provided,
 optimising a three-dimensional function.  The test functions are 
 implemented in the `TestFunctions` module.
+
+## Continuous GA
+
+The `ContinuousChromosome` module is provided for continuous GA.
+The API replicates that of `BinaryChromosome`, so that they can be
+used almost interchangeably.
