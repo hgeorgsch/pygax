@@ -54,7 +54,7 @@ class BinaryRepresentation:
 
         # If bits is a scalar, turn it into an array
         if np.isscalar(bits):
-            bits = bits*np.ones(size,dtype=np.int8)
+            bits = bits*np.ones(size,dtype=np.int32)
         self.bits = bits
         self.length = sum(bits)
     def getFloat(self,gene):
@@ -90,7 +90,7 @@ class BinaryRepresentation:
         # Mormalise p to [0,1] range
         pnorm = (p - self.pmin)/(self.pmax - self.pmin)
         # Quantise pnorm and represent as an integer of required length 
-        pi = pnorm*2**self.bits
+        pi = pnorm*2.0**self.bits
         pi = np.rint(pi).astype(int)
         # Binary code pi
         for (x,b) in zip(pi,self.bits):
