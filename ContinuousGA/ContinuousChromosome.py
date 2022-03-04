@@ -5,6 +5,9 @@ Class to represent continuous chromosomes.
 """
 
 import numpy as np
+import sys
+
+sys.path.append("../BinaryGA/")
 from BinaryChromosome import BinaryChromosome 
 
 class ContinuousRepresentation:

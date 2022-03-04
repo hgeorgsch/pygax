@@ -5,10 +5,13 @@ A basic, generic, GA implementation for testing and instruction.
 """
 
 from ContinuousChromosome import *
+
+import sys
+sys.path.append("../BinaryGA/")
 from GA import GA
 from TestFunctions import *
+
 import numpy as np
-import sys
 
 def ccross(x,y):
     beta = np.random.random_sample( size=len(x) )

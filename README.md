@@ -9,89 +9,16 @@ module for reuse.
 
 The code is crude.  Please suggest improvements.
 
-## Binary GA for floating point problems
+## Subdirectories
 
-The demo contains three classes.
++ [BinaryGA]()
+    - all the necessary demoes to optimise floating point functions 
+      using a binary GA
++ [ContinuousGA]()
+    - builds on BinaryGA adding demoes for floating point chromosomes
 
-### BinaryChromosome.BinaryRepresentation
+## Releases
 
-The `BinaryRepresentation` class is used to map between 
-floating point vectors in the solution space and binary
-vectors in the chromosome space.
+- v0.1.0 - prepared for session 3 March 2022
+    - the branch v0.1 contains bugfixes
 
-You set up a representation by instantiating `BinaryRepresentation` 
-with three parameters, the minimum value, maximum value, and number
-of bits for each dimension.  
-
-The representation object provides two important methods:
-`getFloat()` to map from chromosome to floating point vector,
-and `getGene()` for the inverse mapping. It also has the
-`makePopulation()` method to make a random population, using
-`BinaryChromosome` objects as defined below.
-
-### BinaryChromosome.BinaryChromosome
-
-A `BinaryChromosome` object is a chromosome to be used with the
-`GA` solver below.
-
-There is a test script in the script section of the file,
-testing and demonstrating the main principles.
-
-### GA.GA
-
-The `GA` class sets up a generic genetic algorithm.  Mating, crossover,
-and mutation functions are given as arguments to the constructor.
-The module also contains some simple default implementations of these
-functions.
-
-A `GA` object is intialised with a representation object (see above)
-and a cost function.  The other critical methods are
-
-1.  `initPopulation(size)` to initialise a population of a given size.
-2.  `evolve(ngen)` to evolve the given number of generations
-3.  `sortCost()` to get a sorted list of costs and chromosomes.
-
-An example is given in the script section at the bottom of the file.
-
-### Testing
-
-In addition to the test script sections in the modules themselves,
-an additional test script `testGA.py` is provided, optimising a
-three-dimensional function.  The test functions are implemented
-in the `TestFunctions` module.
-
-## Local Beam Search
-
-For the sake of comparison we provide an implementation of Local Beam Search.
-
-### BinaryBeam.Beam
-
-This class follows the same structure as `GA`, assuming a binary 
-representation.  As the test script shows, it is used in the same
-way.
-
-By using the binary representation, we have a finite number of 
-neighbours at Hamming distance one, and every such neighbour is
-considered.
-
-Note that we can run the local beam search with a population size
-of one to make a straight-forward hill climbing search.
-
-### Testing
-
-In addition to the test script sections in the modules themselves,
-an additional test script `testBeam.py` is provided, analogous to
-`testGA.py`.
-
-## Continuous GA
-
-The `ContinuousChromosome` module is provided for continuous GA.
-The API replicates that of `BinaryChromosome`, so that they can be
-used almost interchangeably.  
-The `ContinuousGA` module demonstrates this, using the original GA
-with continuous chromosomes..
-An alternative cross-over (mating) function to get decent results,
-but the original single-point cross-over could be used.
-The most critical difference when adapting binary test scripts
-to continuous chromosomes is that the continuous representation
-object does not take the `bits` argument to the constructor.
