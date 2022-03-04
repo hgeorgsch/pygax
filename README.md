@@ -16,6 +16,11 @@ The code is crude.  Please suggest improvements.
       using a binary GA
 + [ContinuousGA]()
     - builds on BinaryGA adding demoes for floating point chromosomes
++ [TournamentGA]()
+    - this variant demonstrates tournament selection.  The API of the
+      mating function is not compatible, and the population is not
+      sorted.
+      
 
 ## Releases
 
