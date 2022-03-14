@@ -34,7 +34,7 @@ def simpleMate(pop):
     i = 0
     l = len(pop)
     for i in range(0,l-1,2):
-        r.append( (pop[i],pop[i+1]) )
+        r.append( (pop[i][1],pop[i+1][1]) )
     return r
 def simpleCrossover(x,y):
     "Single-point cross-over."
@@ -152,7 +152,7 @@ class GA:
         pairs = self.mate(cost)
 
         # Make offspring with the crossover function
-        offspring = [ self.crossover(x,y) for ((cx,x),(cy,y)) in pairs ]
+        offspring = [ self.crossover(x,y) for (x,y) in pairs ]
 
         # Update population
         self.population = [ x for (y,x) in cost ]
