@@ -16,9 +16,9 @@ def proportionalSelect(pop,size=None):
     # Scale costs to [0,1] range
     costs = [ toscalar(x[0]) for x in pop ] 
     c0 = min(costs)
-    costs = [ c+c0 for c in costs ]
-    max = sum( costs )
-    probs = [ x/max for x in costs ]
+    costs = [ c-c0 for c in costs ]
+    c1 = sum( costs )
+    probs = [ x/c1 for x in costs ]
 
     # Pick out the chromosomes
     pops = [ x[1] for x in pop ] 
