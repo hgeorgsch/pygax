@@ -4,7 +4,7 @@
 A GA simulation of the cobweb model.
 """
 
-import sys
+import sys,getopt
 sys.path.append("../BinaryGA/")
 from GA import *
 from BinaryChromosome import BinaryRepresentation
@@ -118,7 +118,7 @@ class GASim(GA):
         return r
     def getplotdata(self):
         "Prepare dataset for plotting"
-        x = range(101)
+        x = range(self.generation+1)
         price = self.pricelist
         sol = self.poplist
         sol = [ [ (x,y) for y in z ] for (x,z) in zip(x,sol) ]
@@ -129,15 +129,45 @@ class GASim(GA):
 
 
 if __name__ == "__main__":
-    cobweb = CobWeb(alpha=0.25)
+    ngen = 100
+    hstring='GASim.py --alpha avalue -o <outputfile>'
+    alpha = 0.25
+    outputfile = None
+    print("System arguments:", sys.argv)
+    try:
+        opts, args = getopt.getopt(sys.argv[1:],"A:o:g:",["alpha=","file=","ngen="])
+    except getopt.GetoptError:
+      print(hstring)
+      sys.exit(2)
+    print("Options:", opts, args)
+    for opt, arg in opts:
+      if opt == '-h':
+          print(hstring)
+          sys.exit()
+      elif opt in ("-A", "--alpha"):
+          alpha = float(arg)
+      elif opt in ("-o", "--file"):
+          outputfile = arg
+          print(f"Output file: {outputfile}")
+      elif opt in ("-g", "--ngen"):
+          ngen = int(arg)
+    print(f"alpha={alpha}")
+    print(f"Number of Generations: {ngen}")
+
+    cobweb = CobWeb(alpha=alpha)
     r = BinaryRepresentation(0,1,bits=12)
     ga = GASim(r,cobweb)
     ga.initPopulation(200)
-    ga.sim(100)
+    ga.sim(ngen)
     (xprice,yprice,xsol,ysol) = ga.getplotdata()
     fig = plt.figure()
     ax1 = fig.add_subplot(111)
     ax1.scatter(xsol,ysol,color="red",marker=".",s=0.1,label="Strategies")
     ax1.plot(xprice,yprice,color="green",label="Price")
     plt.legend(loc="lower right")
-    plt.show()
+    if outputfile != None:
+       plt.savefig(outputfile)
+    else:
+        plt.show()
+
+
