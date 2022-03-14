@@ -6,7 +6,7 @@ A GA simulation of the cobweb model.
 
 import sys
 sys.path.append("../BinaryGA/")
-from GA import GA
+from GA import *
 from BinaryChromosome import BinaryRepresentation
 
 import numpy as np
