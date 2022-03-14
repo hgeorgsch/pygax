@@ -84,8 +84,12 @@ class GASim(GA):
         return GA.__init__(self,representation,market.cost,mate,crossover,mutate,selectionrate,debug)
 
     def setprice(self):
+        "Set the price given the current population of strategies."
         q = [ self.representation.getFloat(x) for x in self.population ]
         self.market.setprice(q)
+    def getpop(self):
+        "Return the decoded chromosomes (player strategies)."
+        return [ self.representation.getFloat(x) for x in self.population ]
     def sortcost(self):
         """
         Calculate costs and sort chromosome.
@@ -97,13 +101,25 @@ class GASim(GA):
         """Evolve one generation."""
         self.setprice()
         return GA.nextGeneration(self)
+    def sim(self,ngen=100):
+        """
+        Run a simulation over `ngen` generations, recording prices and
+        player strategies for each generation. These data can be retrieved
+        for plotting.
+        """
+        self.setprice()
+        self.pricelist = [ self.market.price ]
+        self.poplist = [ self.getpop() ]
+        for i in range(ngen):
+            r = self.nextGeneration()
+            self.pricelist.append( self.market.price )
+            self.poplist.append( self.getpop() )
+        return r
 
 
 if __name__ == "__main__":
     cobweb = CobWeb(alpha=0.25)
     r = BinaryRepresentation(0,1,bits=12)
     ga = GASim(r,cobweb)
-    ga.initPopulation(1000)
-    for c in ga.population: print(str(c),file=sys.stderr)
-    # Evolve step by step
-    print( ga.getSolution() )
+    ga.initPopulation(200)
+    ga.sim(100)

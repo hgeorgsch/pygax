@@ -9,3 +9,10 @@ lot of publications both on this specific cobweb model and other applications
 of evolutionary algorithms.
 
 
+The `GASim.py` module provides two classes.  The `CobWeb` class representing
+a market of the CobWeb type, and `GASim` which is an adaptation of the original
+binary `GA` class to handle the case where the cost function changes for every
+generation, depending on the market.
+
+Extra utility functions have also been added to the `GASim` class to record
+the evolution for subsequent analysis and plotting.
