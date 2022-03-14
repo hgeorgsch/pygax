@@ -18,7 +18,12 @@ def proportionalSelect(pop,size=None):
     c0 = min(costs)
     costs = [ c-c0 for c in costs ]
     c1 = sum( costs )
-    probs = [ x/c1 for x in costs ]
+    # If all chromosomes have the same cost, c1 will be zero,
+    # which means that uniform probabilities must be used.
+    if c1 > 0:
+        probs = [ x/c1 for x in costs ]
+    else:
+        probs = None
 
     # Pick out the chromosomes
     pops = [ x[1] for x in pop ] 
