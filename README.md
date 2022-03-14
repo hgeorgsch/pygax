@@ -20,7 +20,8 @@ The code is crude.  Please suggest improvements.
     - this variant demonstrates tournament selection.  The API of the
       mating function is not compatible, and the population is not
       sorted.
-      
++ [Simulation]()
+    - demo of GA to simulate economic markets
 
 ## Releases
 
