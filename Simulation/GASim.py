@@ -56,6 +56,14 @@ class CobWeb:
 
 
 class GASim(GA):
+    """
+    A variant of the `GA` class to simulate economic markets.
+    In this case the cost function changes from generation to 
+    generation, depending on the player strategies (chromosomes).
+    Only a few methods are overridden, to keep a reference to the
+    market model instance and to update the cost function at
+    the start of each generation, before the costs are evaluated.
+    """
     def __init__(self,representation,market,
             mate=simpleMate,crossover=simpleCrossover,mutate=simpleMutate,selectionrate=0.5,debug=2):
         """
@@ -63,7 +71,7 @@ class GASim(GA):
 
         Arguments:
             representation : representation object defining the mapping from variables to chromosomes
-            costfunction : the costfunction to minimise
+            market : an instance of a market model, such as CobWeb.
             mate : function to select mating pairs
             crossover : the crossover function
             mutate : the mutation function (must work in place)
@@ -71,18 +79,23 @@ class GASim(GA):
 
         Note that if the selection rate is 1 or greater, the population
         is not sorted before mating.
-
-        Hint. To change the mutation rate in the default mutation function,
-        you can use lambda functions.  For example,
-        `mutate=lambda x : simpleMutate(x,cprob=0.01,gprob=0.1)`.
         """
         self.market = market
         return GA.__init__(self,representation,market.cost,mate,crossover,mutate,selectionrate,debug)
 
-    def nextGeneration(self):
-        """Evolve one generation."""
+    def setprice(self):
         q = [ self.representation.getFloat(x) for x in self.population ]
         self.market.setprice(q)
+    def sortcost(self):
+        """
+        Calculate costs and sort chromosome.
+        The return value is a list of cost/chromosome pairs.
+        """
+        self.setprice()
+        return GA.sortcost(self)
+    def nextGeneration(self):
+        """Evolve one generation."""
+        self.setprice()
         return GA.nextGeneration(self)
 
 
