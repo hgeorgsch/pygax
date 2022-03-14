@@ -10,6 +10,7 @@ from GA import *
 from BinaryChromosome import BinaryRepresentation
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 class CobWeb:
     """
@@ -115,6 +116,16 @@ class GASim(GA):
             self.pricelist.append( self.market.price )
             self.poplist.append( self.getpop() )
         return r
+    def getplotdata(self):
+        "Prepare dataset for plotting"
+        x = range(101)
+        price = self.pricelist
+        sol = self.poplist
+        sol = [ [ (x,y) for y in z ] for (x,z) in zip(x,sol) ]
+        sol = sum(sol,[])
+        xsol = [ x for (x,y) in sol ]
+        ysol = [ y for (x,y) in sol ]
+        return ( x,price, xsol,ysol )
 
 
 if __name__ == "__main__":
@@ -123,3 +134,10 @@ if __name__ == "__main__":
     ga = GASim(r,cobweb)
     ga.initPopulation(200)
     ga.sim(100)
+    (xprice,yprice,xsol,ysol) = ga.getplotdata()
+    fig = plt.figure()
+    ax1 = fig.add_subplot(111)
+    ax1.scatter(xsol,ysol,color="red",marker=".",s=0.1,label="Strategies")
+    ax1.plot(xprice,yprice,color="green",label="Price")
+    plt.legend(loc="lower right")
+    plt.show()
