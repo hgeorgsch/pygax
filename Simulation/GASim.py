@@ -121,21 +121,23 @@ class GASim(GA):
         x = range(self.generation+1)
         price = self.pricelist
         sol = self.poplist
+        avg = [ sum(z)/len(z) for z in sol ]
         sol = [ [ (x,y) for y in z ] for (x,z) in zip(x,sol) ]
         sol = sum(sol,[])
         xsol = [ x for (x,y) in sol ]
         ysol = [ y for (x,y) in sol ]
-        return ( x,price, xsol,ysol )
+        return ( x,price, xsol,ysol, x, avg )
 
 
 if __name__ == "__main__":
     ngen = 100
+    size = 200
     hstring='GASim.py --alpha avalue -o <outputfile>'
     alpha = 0.25
     outputfile = None
     print("System arguments:", sys.argv)
     try:
-        opts, args = getopt.getopt(sys.argv[1:],"A:o:g:",["alpha=","file=","ngen="])
+        opts, args = getopt.getopt(sys.argv[1:],"A:o:g:p:",["alpha=","file=","ngen=","size="])
     except getopt.GetoptError:
       print(hstring)
       sys.exit(2)
@@ -151,20 +153,23 @@ if __name__ == "__main__":
           print(f"Output file: {outputfile}")
       elif opt in ("-g", "--ngen"):
           ngen = int(arg)
+      elif opt in ("-p", "--size"):
+          size = int(arg)
     print(f"alpha={alpha}")
     print(f"Number of Generations: {ngen}")
 
     cobweb = CobWeb(alpha=alpha)
-    r = BinaryRepresentation(0,1,bits=12)
+    r = BinaryRepresentation(0,1,bits=64)
     ga = GASim(r,cobweb)
-    ga.initPopulation(200)
+    ga.initPopulation(size)
     ga.sim(ngen)
-    (xprice,yprice,xsol,ysol) = ga.getplotdata()
+    (xprice,yprice,xsol,ysol,xavg,yavg) = ga.getplotdata()
     fig = plt.figure()
     ax1 = fig.add_subplot(111)
     ax1.scatter(xsol,ysol,color="red",marker=".",s=0.1,label="Strategies")
     ax1.plot(xprice,yprice,color="green",label="Price")
-    plt.legend(loc="lower right")
+    ax1.plot(xavg,yavg,color="black",linestyle="dotted",label="Average strategy")
+    plt.legend(loc="upper right")
     if outputfile != None:
        plt.savefig(outputfile)
     else:
