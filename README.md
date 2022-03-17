@@ -11,7 +11,7 @@ The code is crude.  Please suggest improvements.
 
 ## Subdirectories
 
-+ [BinaryGA]()
++ [BinaryGA](BinaryGA)
     - all the necessary demoes to optimise floating point functions 
       using a binary GA
 + [ContinuousGA]()
@@ -20,7 +20,7 @@ The code is crude.  Please suggest improvements.
     - this variant demonstrates tournament selection.  The API of the
       mating function is not compatible, and the population is not
       sorted.
-+ [Simulation]()
++ [Simulation](https://github.com/hgeorgsch/pygax/tree/main/Simulation)
     - demo of GA to simulate economic markets
 
 ## Releases
