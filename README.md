@@ -14,13 +14,13 @@ The code is crude.  Please suggest improvements.
 + [BinaryGA](BinaryGA)
     - all the necessary demoes to optimise floating point functions 
       using a binary GA
-+ [ContinuousGA]()
++ [ContinuousGA](ContinuousGA)
     - builds on BinaryGA adding demoes for floating point chromosomes
-+ [TournamentGA]()
++ [TournamentGA](TournamentGA)
     - this variant demonstrates tournament selection.  The API of the
       mating function is not compatible, and the population is not
       sorted.
-+ [Simulation](https://github.com/hgeorgsch/pygax/tree/main/Simulation)
++ [Simulation](Simulation)
     - demo of GA to simulate economic markets
 
 ## Releases
