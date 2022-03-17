@@ -25,6 +25,7 @@ The code is crude.  Please suggest improvements.
 
 ## Releases
 
+- v0.2.0 - prepared for session 17 March 2022
 - v0.1.0 - prepared for session 3 March 2022
     - the branch v0.1 contains bugfixes
 
