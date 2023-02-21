@@ -53,6 +53,9 @@ class Beam(GA):
 
         # Calculate the cost function; list of cost/chromosome pairs
         cost = [ (self.cost(x),x) for x in offspring ]
+        # Note that we have not included the old population here.
+        # It could be a good idea to include that, to avoid oscilating
+        # between an optimal solution and its neighbours.
 
         cost.sort( key=lambda x : x[0] )
         if self.debug > 0: 
